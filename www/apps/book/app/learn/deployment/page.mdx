@@ -12,7 +12,7 @@ A standard Medusa project is made up of:
 
 - Medusa application: The Medusa server and the Medusa Admin.
 - One or more storefronts
-    
+
 ![Diagram showcasing the connection between the three deployed components](https://res.cloudinary.com/dza7lstvk/image/upload/v1708600807/Medusa%20Book/deployment-options_ceuuvo.jpg)
 
 You can either deploy the Medusa application fully (server with the admin), or deploy the Medusa Admin separately. The storefront is always deployed separately.
@@ -25,13 +25,36 @@ You must deploy the Medusa server before the admin or storefront, as both of the
 
 ![Diagram showcasing how the Medusa server and its associated services would be deployed](https://res.cloudinary.com/dza7lstvk/image/upload/v1708600972/Medusa%20Book/backend_deployment_pgexo3.jpg)
 
-The Medusa server must be deployed to a hosting provider supporting Node.js server deployments, such as Railway, DigitalOcean, AWS, Heroku, etc…
+The `npm run build` command will compile your Medusa backend server and create a static bundle for the Admin dashboard. The output is written inside the `.medusa/server` directory, and you can deploy this directory without relying on the original TypeScript source.
+
+Following are the hypothetical steps for creating and running the production build. The actual setup may vary depending upon your deployment host. However, the goal is to follow the following steps and run the production server from within the `.medusa/server` directory.
 
 <Note title="Tip">
 
 For optimal experience, make sure that the hosting provider and plan offer at least 2GB of RAM.
 
 </Note>
+
+```sh
+# First create a build
+npm run build
+
+# Cd into the output directory.
+
+cd .medusa/server
+
+# Install production dependencies
+
+npm ci --omit=dev
+
+# Define environment variables before you attempt to start the server
+
+# Run production server
+
+npx medusa start
+```
+
+### Additional services
 
 Your server connects to a PostgreSQL database, Redis, and other services relevant for your setup. Most hosting providers support deploying and managing these databases along with your Medusa server (such as Railway and DigitalOcean).
 
