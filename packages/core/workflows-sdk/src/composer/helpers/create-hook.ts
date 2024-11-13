@@ -1,7 +1,7 @@
 import { CompensateFn, createStep, InvokeFn } from "./create-step"
 import { OrchestrationUtils } from "@medusajs/utils"
-import { CreateWorkflowComposerContext } from "./type"
-import { createStepHandler } from "./helpers/create-step-handler"
+import { CreateWorkflowComposerContext } from "../type"
+import { createStepHandler } from "./create-step-handler"
 
 /**
  * Representation of a hook definition.

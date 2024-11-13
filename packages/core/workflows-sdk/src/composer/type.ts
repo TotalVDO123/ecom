@@ -8,9 +8,9 @@ import {
   WorkflowHandler,
 } from "@medusajs/orchestration"
 import { Context, LoadedModule, MedusaContainer } from "@medusajs/types"
-import { ExportedWorkflow } from "../../helper"
-import { Hook } from "./create-hook"
-import { CompensateFn, InvokeFn } from "./create-step"
+import { ExportedWorkflow } from "../helper"
+import { Hook } from "./helpers/create-hook"
+import { CompensateFn, InvokeFn } from "./helpers/create-step"
 
 export type StepFunctionResult<TOutput extends unknown | unknown[] = unknown> =
   (this: CreateWorkflowComposerContext) => WorkflowData<TOutput>
