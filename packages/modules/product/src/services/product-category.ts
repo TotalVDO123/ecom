@@ -33,7 +33,7 @@ export default class ProductCategoryService {
     productCategoryId: string,
     config: FindConfig<ProductTypes.ProductCategoryDTO> = {},
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<ProductCategory> {
+  ): Promise<typeof ProductCategory> {
     if (!isDefined(productCategoryId)) {
       throw new MedusaError(
         MedusaError.Types.NOT_FOUND,
@@ -41,7 +41,7 @@ export default class ProductCategoryService {
       )
     }
 
-    const queryOptions = ModulesSdkUtils.buildQuery<ProductCategory>(
+    const queryOptions = ModulesSdkUtils.buildQuery<typeof ProductCategory>(
       {
         id: productCategoryId,
       },
@@ -67,7 +67,7 @@ export default class ProductCategoryService {
       )
     }
 
-    return productCategories[0] as ProductCategory
+    return productCategories[0] as typeof ProductCategory
   }
 
   @InjectManager("productCategoryRepository_")
@@ -75,7 +75,7 @@ export default class ProductCategoryService {
     filters: ProductTypes.FilterableProductCategoryProps = {},
     config: FindConfig<ProductTypes.ProductCategoryDTO> = {},
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<ProductCategory[]> {
+  ): Promise<(typeof ProductCategory)[]> {
     const transformOptions = {
       includeDescendantsTree: filters?.include_descendants_tree || false,
       includeAncestorsTree: filters?.include_ancestors_tree || false,
@@ -94,7 +94,7 @@ export default class ProductCategoryService {
       delete filters.q
     }
 
-    const queryOptions = ModulesSdkUtils.buildQuery<ProductCategory>(
+    const queryOptions = ModulesSdkUtils.buildQuery<typeof ProductCategory>(
       filters,
       config
     )
@@ -104,7 +104,7 @@ export default class ProductCategoryService {
       queryOptions,
       transformOptions,
       sharedContext
-    )) as ProductCategory[]
+    )) as (typeof ProductCategory)[]
   }
 
   @InjectManager("productCategoryRepository_")
@@ -112,7 +112,7 @@ export default class ProductCategoryService {
     filters: ProductTypes.FilterableProductCategoryProps = {},
     config: FindConfig<ProductTypes.ProductCategoryDTO> = {},
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<[ProductCategory[], number]> {
+  ): Promise<[(typeof ProductCategory)[], number]> {
     const transformOptions = {
       includeDescendantsTree: filters?.include_descendants_tree || false,
       includeAncestorsTree: filters?.include_ancestors_tree || false,
@@ -131,7 +131,7 @@ export default class ProductCategoryService {
       delete filters.q
     }
 
-    const queryOptions = ModulesSdkUtils.buildQuery<ProductCategory>(
+    const queryOptions = ModulesSdkUtils.buildQuery<typeof ProductCategory>(
       filters,
       config
     )
@@ -141,27 +141,27 @@ export default class ProductCategoryService {
       queryOptions,
       transformOptions,
       sharedContext
-    )) as [ProductCategory[], number]
+    )) as [(typeof ProductCategory)[], number]
   }
 
   @InjectTransactionManager("productCategoryRepository_")
   async create(
     data: ProductTypes.CreateProductCategoryDTO[],
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<ProductCategory[]> {
+  ): Promise<(typeof ProductCategory)[]> {
     return (await (
       this.productCategoryRepository_ as unknown as ProductCategoryRepository
-    ).create(data, sharedContext)) as ProductCategory[]
+    ).create(data, sharedContext)) as (typeof ProductCategory)[]
   }
 
   @InjectTransactionManager("productCategoryRepository_")
   async update(
     data: UpdateCategoryInput[],
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<ProductCategory[]> {
+  ): Promise<(typeof ProductCategory)[]> {
     return (await (
       this.productCategoryRepository_ as unknown as ProductCategoryRepository
-    ).update(data, sharedContext)) as ProductCategory[]
+    ).update(data, sharedContext)) as (typeof ProductCategory)[]
   }
 
   @InjectTransactionManager("productCategoryRepository_")

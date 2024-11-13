@@ -3505,6 +3505,7 @@ describe("Entity builder", () => {
           email: string
           isVerified: boolean
           deleted_at: Date | null
+          user_id: string
           user: {
             id: number
             username: string
@@ -3517,6 +3518,7 @@ describe("Entity builder", () => {
         email: string
         isVerified: boolean
         deleted_at: Date | null
+        user_id: string
         user: {
           id: number
           username: string
@@ -3700,6 +3702,7 @@ describe("Entity builder", () => {
         email: {
           email: string
           isVerified: boolean
+          user_id: string | null
           user: {
             id: number
             username: string
@@ -3710,6 +3713,7 @@ describe("Entity builder", () => {
       expectTypeOf(new Email()).toMatchTypeOf<{
         email: string
         isVerified: boolean
+        user_id: string | null
         user: {
           id: number
           username: string

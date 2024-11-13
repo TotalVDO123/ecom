@@ -103,15 +103,31 @@ export default class ProductModuleService
   implements ProductTypes.IProductModuleService
 {
   protected baseRepository_: DAL.RepositoryService
-  protected readonly productService_: ModulesSdkTypes.IMedusaInternalService<Product>
-  protected readonly productVariantService_: ModulesSdkTypes.IMedusaInternalService<ProductVariant>
+  protected readonly productService_: ModulesSdkTypes.IMedusaInternalService<
+    typeof Product
+  >
+  protected readonly productVariantService_: ModulesSdkTypes.IMedusaInternalService<
+    typeof ProductVariant
+  >
   protected readonly productCategoryService_: ProductCategoryService
-  protected readonly productTagService_: ModulesSdkTypes.IMedusaInternalService<ProductTag>
-  protected readonly productCollectionService_: ModulesSdkTypes.IMedusaInternalService<ProductCollection>
-  protected readonly productImageService_: ModulesSdkTypes.IMedusaInternalService<ProductImage>
-  protected readonly productTypeService_: ModulesSdkTypes.IMedusaInternalService<ProductType>
-  protected readonly productOptionService_: ModulesSdkTypes.IMedusaInternalService<ProductOption>
-  protected readonly productOptionValueService_: ModulesSdkTypes.IMedusaInternalService<ProductOptionValue>
+  protected readonly productTagService_: ModulesSdkTypes.IMedusaInternalService<
+    typeof ProductTag
+  >
+  protected readonly productCollectionService_: ModulesSdkTypes.IMedusaInternalService<
+    typeof ProductCollection
+  >
+  protected readonly productImageService_: ModulesSdkTypes.IMedusaInternalService<
+    typeof ProductImage
+  >
+  protected readonly productTypeService_: ModulesSdkTypes.IMedusaInternalService<
+    typeof ProductType
+  >
+  protected readonly productOptionService_: ModulesSdkTypes.IMedusaInternalService<
+    typeof ProductOption
+  >
+  protected readonly productOptionValueService_: ModulesSdkTypes.IMedusaInternalService<
+    typeof ProductOptionValue
+  >
   protected readonly eventBusModuleService_?: IEventBusModuleService
 
   constructor(
@@ -186,7 +202,7 @@ export default class ProductModuleService
   protected async createVariants_(
     data: ProductTypes.CreateProductVariantDTO[],
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<ProductVariant[]> {
+  ): Promise<(typeof ProductVariant)[]> {
     if (data.some((v) => !v.product_id)) {
       throw new MedusaError(
         MedusaError.Types.INVALID_DATA,
@@ -262,8 +278,8 @@ export default class ProductModuleService
       (variant): variant is ProductTypes.CreateProductVariantDTO => !variant.id
     )
 
-    let created: ProductVariant[] = []
-    let updated: ProductVariant[] = []
+    let created: (typeof ProductVariant)[] = []
+    let updated: (typeof ProductVariant)[] = []
 
     if (forCreate.length) {
       created = await this.createVariants_(forCreate, sharedContext)
@@ -330,7 +346,7 @@ export default class ProductModuleService
   protected async updateVariants_(
     data: UpdateProductVariantInput[],
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<ProductVariant[]> {
+  ): Promise<(typeof ProductVariant)[]> {
     // Validation step
     const variantIdsToUpdate = data.map(({ id }) => id)
     const variants = await this.productVariantService_.list(
@@ -465,8 +481,8 @@ export default class ProductModuleService
       (tag): tag is ProductTypes.CreateProductTagDTO => !tag.id
     )
 
-    let created: ProductTag[] = []
-    let updated: ProductTag[] = []
+    let created: (typeof ProductTag)[] = []
+    let updated: (typeof ProductTag)[] = []
 
     if (forCreate.length) {
       created = await this.productTagService_.create(forCreate, sharedContext)
@@ -595,8 +611,8 @@ export default class ProductModuleService
       (type): type is ProductTypes.CreateProductTypeDTO => !type.id
     )
 
-    let created: ProductType[] = []
-    let updated: ProductType[] = []
+    let created: (typeof ProductType)[] = []
+    let updated: (typeof ProductType)[] = []
 
     if (forCreate.length) {
       created = await this.productTypeService_.create(forCreate, sharedContext)
@@ -740,8 +756,8 @@ export default class ProductModuleService
       (option): option is ProductTypes.CreateProductOptionDTO => !option.id
     )
 
-    let created: ProductOption[] = []
-    let updated: ProductOption[] = []
+    let created: (typeof ProductOption)[] = []
+    let updated: (typeof ProductOption)[] = []
 
     if (forCreate.length) {
       created = await this.createOptions_(forCreate, sharedContext)
@@ -806,7 +822,7 @@ export default class ProductModuleService
   protected async updateOptions_(
     data: UpdateProductOptionInput[],
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<ProductOption[]> {
+  ): Promise<(typeof ProductOption)[]> {
     // Validation step
     if (data.some((option) => !option.id)) {
       throw new MedusaError(
@@ -915,7 +931,7 @@ export default class ProductModuleService
   async createCollections_(
     data: ProductTypes.CreateProductCollectionDTO[],
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<ProductCollection[]> {
+  ): Promise<(typeof ProductCollection)[]> {
     const normalizedInput = data.map(
       ProductModuleService.normalizeCreateProductCollectionInput
     )
@@ -960,8 +976,8 @@ export default class ProductModuleService
         !collection.id
     )
 
-    let created: ProductCollection[] = []
-    let updated: ProductCollection[] = []
+    let created: (typeof ProductCollection)[] = []
+    let updated: (typeof ProductCollection)[] = []
 
     if (forCreate.length) {
       created = await this.createCollections_(forCreate, sharedContext)
@@ -1055,7 +1071,7 @@ export default class ProductModuleService
   protected async updateCollections_(
     data: UpdateCollectionInput[],
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<ProductCollection[]> {
+  ): Promise<(typeof ProductCollection)[]> {
     const normalizedInput = data.map(
       ProductModuleService.normalizeUpdateProductCollectionInput
     ) as UpdateCollectionInput[]
@@ -1069,7 +1085,7 @@ export default class ProductModuleService
       sharedContext
     )
 
-    const collections: ProductCollection[] = []
+    const collections: (typeof ProductCollection)[] = []
 
     const updateSelectorAndData = updatedCollections.flatMap(
       (collectionData) => {
@@ -1185,8 +1201,8 @@ export default class ProductModuleService
         !category.id
     )
 
-    let created: ProductCategory[] = []
-    let updated: ProductCategory[] = []
+    let created: (typeof ProductCategory)[] = []
+    let updated: (typeof ProductCategory)[] = []
 
     if (forCreate.length) {
       created = await this.productCategoryService_.create(
@@ -1336,8 +1352,8 @@ export default class ProductModuleService
       (product): product is ProductTypes.CreateProductDTO => !product.id
     )
 
-    let created: Product[] = []
-    let updated: Product[] = []
+    let created: (typeof Product)[] = []
+    let updated: (typeof Product)[] = []
 
     if (forCreate.length) {
       created = await this.createProducts_(forCreate, sharedContext)
@@ -1424,7 +1440,7 @@ export default class ProductModuleService
   protected async createProducts_(
     data: ProductTypes.CreateProductDTO[],
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<Product[]> {
+  ): Promise<(typeof Product)[]> {
     const normalizedInput = await promiseAll(
       data.map(async (d) => {
         const normalized = await this.normalizeCreateProductInput(
@@ -1490,7 +1506,7 @@ export default class ProductModuleService
   protected async updateProducts_(
     data: UpdateProductInput[],
     @MedusaContext() sharedContext: Context = {}
-  ): Promise<Product[]> {
+  ): Promise<(typeof Product)[]> {
     const normalizedInput = await promiseAll(
       data.map(async (d) => {
         const normalized = await this.normalizeUpdateProductInput(
@@ -1750,7 +1766,7 @@ export default class ProductModuleService
     variants:
       | ProductTypes.CreateProductVariantDTO[]
       | ProductTypes.UpdateProductVariantDTO[],
-    options: ProductOption[]
+    options: (typeof ProductOption)[]
   ):
     | ProductTypes.CreateProductVariantDTO[]
     | ProductTypes.UpdateProductVariantDTO[] {
